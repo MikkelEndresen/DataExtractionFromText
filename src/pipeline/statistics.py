@@ -1,4 +1,5 @@
 from typing import List, Dict
+import io
 
 
 def num_params_ext(params):
@@ -12,7 +13,7 @@ def num_params_ext(params):
     '''
     return len(params)
 
-def percentage_char_extracted(params: List[Dict[str, str]], text):
+def percentage_char_extracted(params: List[Dict], file_obj: io.TextIOWrapper):
     '''
      Description:
         - Percentage of characters extracted from text file
@@ -23,10 +24,13 @@ def percentage_char_extracted(params: List[Dict[str, str]], text):
         - Percentage value (numeric)
     '''
 
-    chars_ext = 0
+    chars_list = 0
     for param in params:
         for key in param.keys():
-            chars_ext += len(str(param[key])) # TODO: does this include "\n" etc. ?
+            chars_list += len(str(param[key])) # TODO: does this include "\n" etc. ?
 
+    chars_file =  sum(1 for char in file_obj if char.strip())
+
+    return round(chars_list / chars_file, 3)
 
 

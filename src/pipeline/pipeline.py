@@ -1,4 +1,4 @@
-
+from statistics import percentage_char_extracted, num_params_ext
 
 if __name__ == "__main__":
 
@@ -7,19 +7,9 @@ if __name__ == "__main__":
         print(content)
         print('-'*80)
         file.close()
-        lines = content.readlines()
+        lines = content.split('\n')
         print(len(lines))
 
-    print('-'*80)
-
-    with open('../sample_data/0b8706dc-c9af-4c6b-887d-2f85b5a511e7.txt', 'r') as file:
-        content = file.readlines()
-        new_list = []
-        for line in content:
-            line = line.strip()
-            if line != '' and line != '\n':
-                new_list.append(line)
-                print(line)
-
-        print(len(content))
-        print(len(new_list))
+        test = [{"parameter": "iron", "value": 5.3, "unit": "mmol/mL"}, {"parameter": "iron", "value": 5.3, "unit": "mmol/mL"}, {"parameter": "iron", "value": 5.3, "unit": "mmol/mL"}]
+        print(percentage_char_extracted(test, content))
+        print(num_params_ext(test))
