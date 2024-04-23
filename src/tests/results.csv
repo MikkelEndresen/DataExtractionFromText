@@ -1,0 +1,10 @@
+DateTime,Percentage,Num Parameters Extracted,Accuracy,Result
+2024-04-23 10:12:53.093974,0.021,3,,"[{'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}]"
+2024-04-23 10:12:53.094484,0.006,3,,"[{'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}]"
+2024-04-23 10:12:53.095257,0.001,3,,"[{'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}]"
+2024-04-23 10:12:53.096633,0.07,3,,"[{'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}]"
+2024-04-23 10:12:53.096998,0.005,3,,"[{'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}]"
+2024-04-23 10:12:53.097499,0.022,3,,"[{'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}]"
+2024-04-23 10:12:53.097725,0.004,3,,"[{'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}]"
+2024-04-23 10:12:53.098486,0.003,3,,"[{'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}]"
+2024-04-23 10:12:53.099159,0.02,3,,"[{'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}, {'parameter': 'iron', 'value': 5.3, 'unit': 'mmol/mL'}]"
