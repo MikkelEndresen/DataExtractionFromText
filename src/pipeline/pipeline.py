@@ -14,25 +14,7 @@ def pipeline(filepath):
 import json
 import time
 
-def create_template():
-
-    # {"parameter": "iron", "value": 5.3, "unit": "mmol/mL"}
-    """
-        Template:
-            parameter: 
-            value:
-            unit:
-    """
-    # Try to specify which paramaters I am looking for by keyword recognition first.
-    # exchange (parmater), with keyword found
-
-    # TODO: vectorise X1.json to make the search for relevant keywords faster.
-    # Looping through entire document for each keyword and synonym is going to be slow. 
-    # In total there are 2694 keywords
-    # Takes about 0.06 seconds to loop through the largest document. 
-
-    # load X1.json
-
+def extract_lines():
     x1 = open('X1.json', 'r')
     content = json.load(x1)
     print(f"Number of parameters: {len(content)}")
@@ -48,9 +30,7 @@ def create_template():
         #break
     
     print(f"Number of keywords: {len(all_keywords)}")
-
-    start_time = time.time()
-
+    
     filepath = "../sample_data/0b8706dc-c9af-4c6b-887d-2f85b5a511e7.txt"
     file = open(filepath, 'r')
     data = file.read()
@@ -59,45 +39,45 @@ def create_template():
 
     lines = data.split('\n')
 
-    found_method1 = {}
-    found_method2 = []
+    found = {}
     for i, line in enumerate(lines):
         for word in line.split():
             if word.lower() in all_keywords:
-                found_method1[word] = line
-                found_method2.append({'word': word, 'line': line})
-
-
-    print(f"Length no overwrite = {len(found_method2)}")
-    print(f"Length overwrite = {len(found_method1.keys())}")
-
-    keys = [key['word'] for key in found_method2]
-    print(keys)
-    print(80*'-')
-    print(found_method1.keys())
+                found[word] = line
     
-    print(80*'-')
+    
     # Remove duplicates. All keys == Abrr
 
     final_found = {}
 
-    for key in found_method1.keys():
+    for key in found.keys():
         for x in content:
             lowercase_synonyms = [item.lower() for item in x['Synonyms']]
             if key.lower() == x['Abbreviation'].lower() or key.lower() in lowercase_synonyms:
-                final_found[x['Abbreviation']] = found_method1[key]
-                # temp_line = found_method1[key]
-                # del(found_method1[key])
-                # found_method1[x['Abbreviation']] = temp_line
+                final_found[x['Abbreviation']] = found[key]
 
-    print(len(final_found.keys()))
-    print(final_found.keys())
-    """
-    Desired format:
-        Only one for each. So bump if already exists...?
-    """
+    print(f"Length found = {len(final_found.keys())}")    
+    print(80*'-')
 
+    print(final_found)
+    
+    print(80*'-')
     return final_found
+
+def create_template():
+
+    # {"parameter": "iron", "value": 5.3, "unit": "mmol/mL"}
+    """
+        Template:
+            parameter: 
+            value:
+            unit:
+    """
+   
+    lines =  extract_lines()
+
+    
+    return 
 
     found = []
     for word in content.split():
@@ -113,5 +93,37 @@ def create_template():
 
     # Isolate lines where it is found, give values
 
+from LLM import ollama_phi3
 if __name__ == "__main__":
-    create_template()
+    #create_template()
+
+    lines = extract_lines()
+    start_time = time.time()
+    query = (
+        f"""Context: You are a medical expert that specialises in extracting structured data from lab reports
+            Task: For each key and value in the dictionary defined below fill out the template below.
+                - The parameter is meant to be equal to the key in the dictionary
+                - The value is meant to be a numeric from that line
+                - The unit is meant to be the unit of measurement for the parameter
+
+            Refer to the Example to see what the input output relationship is meant to be
+            Example:
+                Line: ['GLUC': 'Diabetes is unlikely if fasting glucose levels are less than 5.5 mmol/L but']
+                Output: ['parameter': GLUC, 'value': 5.5, 'unit':'mmol/L' ]
+
+            
+            Dictionary: [{lines}]
+
+            Template: ['parameter':, 'value':, 'unit': ]
+            """
+    )
+    end_time = time.time()
+    result = ollama_phi3(query)
+
+    print(result)
+    print('-'*80)
+
+    num_results = len(result.split('\n'))
+    print(f"Num results: {num_results}")
+
+    print(f"Runtime: {(end_time - start_time)}")
