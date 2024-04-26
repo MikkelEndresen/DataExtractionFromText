@@ -1,13 +1,15 @@
-import pytest
+#import pytest
 import os
 import time
 from datetime import datetime
 import csv
 
-import sys
-sys.path.append('../pipeline')
+#import sys
+#sys.path.append('../pipeline')
+#from pipeline import pipeline
+#sys.path.append('../pipeline/statistics')
 from pipeline import pipeline
-from pipeline.statistics import percentage_char_extracted, num_params_ext
+from pipeline.statistics import percentage_char_extracted, num_params_ext, calculate_accuracy
 
 '''
 What information should be stored results.csv?
@@ -23,7 +25,7 @@ What information should be stored results.csv?
 def test_pipeline_stats():
     
     # loop through each file in the folder
-    directory = '../sample_data/'
+    directory = 'sample_data/'
     for filename in os.listdir(directory):
         path = os.path.join(directory, filename)
         if os.path.isfile(path):
@@ -41,7 +43,7 @@ def test_pipeline_stats():
             current_datetime = datetime.now()
             percentage = percentage_char_extracted(result, content)
             num_params = num_params_ext(result)
-            accuracy = None
+            accuracy = calculate_accuracy(result, filename)
             # save into dictionary
             data = {
                 'DateTime': current_datetime, 
@@ -50,13 +52,13 @@ def test_pipeline_stats():
                 'Accuracy': accuracy, 
                 'Result': result
             }
-            
+            print(data)
             csv_file = 'results.csv'
             results_csv = open(csv_file, 'a', newline='')
             header_fields = ['DateTime', 'Percentage', 'Num Parameters Extracted', 'Accuracy', 'Result']
             writer = csv.DictWriter(results_csv, fieldnames=header_fields)
 
-            # Write header if file is empty
+            #Write header if file is empty
             if os.stat(csv_file).st_size == 0:
                 writer.writeheader()
             
@@ -64,5 +66,8 @@ def test_pipeline_stats():
 
             assert content
             assert result
-            assert num_params
-            assert accuracy == None #TODO
+            assert num_params 
+            assert accuracy == 0
+
+if __name__ == "__main__":
+    test_pipeline_stats()

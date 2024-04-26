@@ -1,7 +1,7 @@
 import json
 
 def getX1Params():
-    x1 = open('../pipeline/X1.json', 'r')
+    x1 = open('pipeline/X1.json', 'r')
     content = json.load(x1)
     print(f"Number of parameters: {len(content)}")
     print()
@@ -76,7 +76,7 @@ def clean_ground_truths(file_name):
             - Dictionary of ground truths
     """
 
-    path_to_file = 'gpt_gt/gpt_gt_' + file_name + '.json'
+    path_to_file = 'ground_truths/gpt_gt/gpt_gt_' + file_name + '.json'
     file = open(path_to_file, 'r')
     gpt_gt = json.load(file)
 
@@ -92,5 +92,3 @@ def clean_ground_truths(file_name):
 
     return no_duplicates
 
-if __name__ == "__main__":
-    clean_ground_truths("0b8706dc-c9af-4c6b-887d-2f85b5a511e7")
