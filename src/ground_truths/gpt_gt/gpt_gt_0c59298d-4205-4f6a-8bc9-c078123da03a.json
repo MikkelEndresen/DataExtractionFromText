@@ -1,0 +1,16 @@
+[
+    {"parameter": "IGF-1", "value": 37, "unit": "nmol/L"},
+    {"parameter": "FSH", "value": "<1", "unit": "IU/L"},
+    {"parameter": "LH", "value": "<0.1", "unit": "IU/L"},
+    {"parameter": "PROG", "value": "<1", "unit": "nmol/L"},
+    {"parameter": "E2(ATEL)", "value": "296", "unit": "pmol/L"},
+    {"parameter": "E2(BECK)", "value": "Not available", "unit": "pmol/L"},
+    {"parameter": "LH/FSH Ratio", "value": "Not available", "unit": "Ratio"},
+    {"parameter": "Total Testosterone", "value": 39.2, "unit": "nmol/L"},
+    {"parameter": "Sex Hormone Binding Globulin", "value": 34, "unit": "nmol/L"},
+    {"parameter": "DHEAS", "value": 4.4, "unit": "umol/L"},
+    {"parameter": "Calculated Free Testosterone", "value": 977.4, "unit": "pmol/L"},
+    {"parameter": "Prolactin", "value": 135, "unit": "mIU/L"},
+    {"parameter": "Cortisol", "value": 459, "unit": "nmol/L"},
+    {"parameter": "Albumin", "value": 42, "unit": "g/L"}
+]

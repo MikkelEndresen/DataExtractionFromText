@@ -1,0 +1,10 @@
+[
+    { "parameter": "IGF-1 (Somatomedin C)", "value": 37, "unit": "nmol/L"},
+    { "parameter": "Total Testosterone (Siemens)", "value": 39.2, "unit": "nmol/L"},
+    { "parameter": "Sex Hormone Binding Globulin", "value": 34, "unit": "nmol/t"},
+    { "parameter": "DHEAS", "value": 4.4, "unit": "umol/L"},
+    { "parameter": "Calculated Free Testosterone", "value": 977.4, "unit": "pmol/L"},
+    { "parameter": "Prolactin", "value": 135, "unit": "mIU/L"},
+    { "parameter": "Cortisol", "value": 459, "unit": "nmol/L"},
+    { "parameter": "Albumin", "value": 42, "unit": "g/L"}
+]

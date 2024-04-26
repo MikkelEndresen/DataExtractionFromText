@@ -1,5 +1,4 @@
-
-gpt_ground_truth = [ 
+[ 
         {"parameter": "pH", "value": 7, "unit": ""},
         {"parameter": "Protein", "value": "Nil", "unit": ""},
         {"parameter": "Glucose", "value": "Nil", "unit": ""},
@@ -100,9 +99,4 @@ gpt_ground_truth = [
         {"parameter": "Average BP", "value": "120/72", "unit": "mmHg"}
     ]
 
-if __name__ == "__main__":
-
-    # Open X1, check parameter against it.
-    # Remove duplicates, including synonyms. 
     
-    print(len(gpt_ground_truth))

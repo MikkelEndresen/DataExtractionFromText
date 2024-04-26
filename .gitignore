@@ -3,3 +3,4 @@ venv/
 src/pipeline/__pycache__/
 src/tests/__pycache__/
 src/pipeline/Model/
+src/ground_truths/__pycache__/

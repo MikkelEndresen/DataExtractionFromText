@@ -1,0 +1,14 @@
+[
+    {"parameter": "Sodium", "value": 142, "unit": "mmol/L"},
+    {"parameter": "Potassium", "value": 4.0, "unit": "mmol/L"},
+    {"parameter": "Chloride", "value": 106, "unit": "mmol/L"},
+    {"parameter": "Bicarbonate", "value": 28, "unit": "mmol/L"},
+    {"parameter": "Urea", "value": 4.1, "unit": "mmol/L"},
+    {"parameter": "Creatinine", "value": 89, "unit": "umol/L"},
+    {"parameter": "eGFR", "value": 79, "unit": "mL/min/1.73m2"},
+    {"parameter": "Uric acid", "value": 0.44, "unit": "mmol/L"},
+    {"parameter": "Calcium", "value": 2.40, "unit": "mmol/L"},
+    {"parameter": "Calcium (corr. Alb)", "value": 2.40, "unit": "mmol/L"},
+    {"parameter": "Magnesium", "value": 0.81, "unit": "mmol/L"},
+    {"parameter": "Inorganic Phosphate", "value": 1.12, "unit": "mmol/L"}
+]

@@ -1,4 +1,4 @@
-ground_truth = [
+[
     {"parameter": "HAEMOGLOEIN", "value": 126.0, "unit": "g/L"},
     {"parameter": "RBC", "value": 4.48, "unit": "x10^4/L"},
     {"parameter": "HCT", "value": 0.41, "unit": ""},
@@ -37,5 +37,3 @@ ground_truth = [
     {"parameter": "Folate", "value": 54.5, "unit": "nmol/L"},
     {"parameter": "TSH", "value": 2.37, "unit": "mIU/L"}
 ]
-
-print(len(ground_truth))
