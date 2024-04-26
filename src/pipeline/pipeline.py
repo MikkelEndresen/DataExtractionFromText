@@ -15,7 +15,7 @@ import json
 import time
 
 def extract_lines():
-    x1 = open('X1.json', 'r')
+    x1 = open('pipeline/X1.json', 'r')
     content = json.load(x1)
     print(f"Number of parameters: {len(content)}")
     print()
@@ -30,8 +30,9 @@ def extract_lines():
         #break
     
     print(f"Number of keywords: {len(all_keywords)}")
+
     
-    filepath = "../sample_data/0b8706dc-c9af-4c6b-887d-2f85b5a511e7.txt"
+    filepath = "sample_data/0b8706dc-c9af-4c6b-887d-2f85b5a511e7.txt"
     file = open(filepath, 'r')
     data = file.read()
     print(f"Number of characters in document: {len(data)}")
@@ -60,7 +61,7 @@ def extract_lines():
     print(80*'-')
 
     print(final_found)
-    
+
     print(80*'-')
     return final_found
 
@@ -93,7 +94,9 @@ def create_template():
 
     # Isolate lines where it is found, give values
 
-from LLM import ollama_phi3
+from pipeline.LLM import ollama_phi3
+from pipeline.statistics import calculate_accuracy
+
 if __name__ == "__main__":
     #create_template()
 
@@ -108,13 +111,13 @@ if __name__ == "__main__":
 
             Refer to the Example to see what the input output relationship is meant to be
             Example:
-                Line: ['GLUC': 'Diabetes is unlikely if fasting glucose levels are less than 5.5 mmol/L but']
-                Output: ['parameter': GLUC, 'value': 5.5, 'unit':'mmol/L' ]
+                Line: ["Total Testosterone": "Total Testosterone (Siemens) 39.2 nmol/L (8.3-29)"]
+                Output: [{{"parameter": "Total Testosterone", "value": 39.2, "unit":"nmol/L"}}]
 
             
             Dictionary: [{lines}]
 
-            Template: ['parameter':, 'value':, 'unit': ]
+            Template: [{{"parameter":, "value":, "unit": }}]
             """
     )
     end_time = time.time()
@@ -127,3 +130,8 @@ if __name__ == "__main__":
     print(f"Num results: {num_results}")
 
     print(f"Runtime: {(end_time - start_time)}")
+    
+    result = json.loads(result)
+
+    acc = calculate_accuracy(result, "0b8706dc-c9af-4c6b-887d-2f85b5a511e7.txt")
+    print(acc)
