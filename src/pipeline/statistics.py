@@ -52,10 +52,9 @@ def calculate_accuracy(result, file_name):
 
     print('-'*80)
     print("This is the result: ")
-    print(result)
+    print(len(result))
     correct = 0
     for item in result: 
-        print(item)
         for truth in ground_truth:
             if truth['parameter'].lower() == item['parameter'].lower():
                 correct += 1
@@ -63,7 +62,17 @@ def calculate_accuracy(result, file_name):
                     correct += 1
                 if truth['unit'].lower() == item['unit'].lower():
                     correct += 1
-                
     if correct != 0:
-        correct / (len(ground_truth) * 3)
+        return correct / (len(ground_truth) * 3)
     return 0
+
+
+if __name__ == "__main__":
+
+    filename = '0c59298d-4205-4f6a-8bc9-c078123da03a.txt'
+    file_name = filename[:-4]
+    result = clean_ground_truths(file_name)
+
+    print(f"Initial result: {result}")
+
+    print(calculate_accuracy(result, filename))

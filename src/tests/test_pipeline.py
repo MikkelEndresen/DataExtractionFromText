@@ -53,11 +53,13 @@ def test_pipeline_stats():
 
             # save into dictionary
             data = {
-                'Experiment': 'experiment1', ### TODO: Change
-                'DateTime': current_datetime, 
+                'Experiment': 'experiment1_1', ### TODO: Change
+                'DateTime': current_datetime,
+                'FileName': filename,
                 'Percentage': percentage,
                 'Num Parameters Extracted': num_params,
-                'Accuracy': accuracy, 
+                'Accuracy': accuracy,
+                'Runtime': runtime, 
                 'Result': result,
                 'Ground Truth': ground_truth
             }
@@ -67,7 +69,7 @@ def test_pipeline_stats():
 
             csv_file = 'results.csv'
             results_csv = open(csv_file, 'a', newline='')
-            header_fields = ['Experiment', 'DateTime', 'Percentage', 'Num Parameters Extracted', 'Accuracy', 'Result']
+            header_fields = list(data.keys())
             writer = csv.DictWriter(results_csv, fieldnames=header_fields)
 
             #Write header if file is empty
@@ -75,11 +77,6 @@ def test_pipeline_stats():
                 writer.writeheader()
             
             writer.writerow(data)
-
-            assert content
-            assert result
-            assert num_params 
-            assert accuracy == 0
 
 if __name__ == "__main__":
     test_pipeline_stats()

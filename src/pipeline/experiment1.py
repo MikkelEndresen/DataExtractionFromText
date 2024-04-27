@@ -47,7 +47,7 @@ def standardise_result(result):
         try:
             float_number = float(item[keys[1]])
             new_item["value"] = float_number
-        except ValueError:
+        except (ValueError, TypeError):
             print("Could not convert string to float. Hence 0")
             new_item["value"] = 0
         
@@ -61,7 +61,8 @@ def standardise_result(result):
 def LLM_JSON_query(result):
 
     query = f"""
-        Given this text: [result]. Please ensure it is all on a json format.
+        Given this text: [result]. Please alter it such that it fits a json format of a dictionary like this:
+        [{{"parameter": "Iron", "value": 27, "unit": "umol/L"}}], but with different values
     """
     return query
 
@@ -93,12 +94,30 @@ def experiment1_main(file_name):
     prompt = LLM_query(final_lines)
 
     text_result = ollama_phi3(prompt)
+    print(text_result)
 
     #print('-'*80)
     #print(f"Plain text: {text_result}")
 
-    json_result = ollama_phi3(LLM_JSON_query(text_result))
-    
+    text_result = text_result.split('\n')
+
+    json_result = []
+    for line in text_result:
+        if line == '[' or line == ']':
+            continue
+        try:
+            json_line = json.loads(line)
+        except json.decoder.JSONDecodeError:
+            try: 
+                new_line = ollama_phi3(LLM_JSON_query(line))
+                json_line = json.loads(new_line)
+            except json.decoder.JSONDecodeError:
+                continue
+        json_result.append(json_line)
+
+    print(json_result)
+    json_result =  standardise_result(json_result)
+
     # print(f"Result: {json_result}")
     # print(f"Type: type{json_result}")
 
@@ -106,10 +125,22 @@ def experiment1_main(file_name):
 
     # Remove anything that is not json compatible?
 
-    json_result = json.loads(text_result)
+    # TODO: convert line by line to improve retention
+    
 
+    # try: 
+    #     json_result = json.loads(text_result)
+    # except json.decoder.JSONDecodeError:
+    #     try:
+    #         json_result = ollama_phi3(LLM_JSON_query(text_result))
+    #         json_result = json.loads(text_result)
+    #     except json.decoder.JSONDecodeError:
+    #         print("Unable to load json")
+    #         json_result = []
+    
     json_result =  standardise_result(json_result)
-
+    print(json_result)
+    
     #print(f"Result: {json_result}")
     #print(f"Type: type{json_result}")
 
@@ -117,5 +148,5 @@ def experiment1_main(file_name):
     return json_result
 
 if __name__ == "__main__":
-    experiment1_main('0c848136-de54-49eb-a3c4-b04dda11ef42.txt')  
+    experiment1_main('sample_data/0c848136-de54-49eb-a3c4-b04dda11ef42.txt')  
     #test_formatting()
