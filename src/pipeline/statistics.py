@@ -55,6 +55,7 @@ def calculate_accuracy(result, file_name):
     print(result)
     correct = 0
     for item in result: 
+        print(item)
         for truth in ground_truth:
             if truth['parameter'].lower() == item['parameter'].lower():
                 correct += 1

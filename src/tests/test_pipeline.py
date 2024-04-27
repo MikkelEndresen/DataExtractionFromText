@@ -10,6 +10,8 @@ import csv
 #sys.path.append('../pipeline/statistics')
 from pipeline import pipeline
 from pipeline.statistics import percentage_char_extracted, num_params_ext, calculate_accuracy
+from pipeline.experiment1 import experiment1_main
+from ground_truths.gt_utils import clean_ground_truths
 
 '''
 What information should be stored results.csv?
@@ -32,7 +34,7 @@ def test_pipeline_stats():
             # calculate runtime
             start_time = time.time()
 
-            result = pipeline.pipeline(path)
+            result = experiment1_main(path)
 
             end_time = time.time()
             runtime = end_time - start_time
@@ -44,18 +46,28 @@ def test_pipeline_stats():
             percentage = percentage_char_extracted(result, content)
             num_params = num_params_ext(result)
             accuracy = calculate_accuracy(result, filename)
+
+            ## Get ground truth
+            file_name = filename[:-4]
+            ground_truth = clean_ground_truths(file_name)
+
             # save into dictionary
             data = {
+                'Experiment': 'experiment1', ### TODO: Change
                 'DateTime': current_datetime, 
                 'Percentage': percentage,
                 'Num Parameters Extracted': num_params,
                 'Accuracy': accuracy, 
-                'Result': result
+                'Result': result,
+                'Ground Truth': ground_truth
             }
-            print(data)
+
+            print('-'*80)
+            print(f"This is the data: {data}")
+
             csv_file = 'results.csv'
             results_csv = open(csv_file, 'a', newline='')
-            header_fields = ['DateTime', 'Percentage', 'Num Parameters Extracted', 'Accuracy', 'Result']
+            header_fields = ['Experiment', 'DateTime', 'Percentage', 'Num Parameters Extracted', 'Accuracy', 'Result']
             writer = csv.DictWriter(results_csv, fieldnames=header_fields)
 
             #Write header if file is empty
