@@ -50,9 +50,6 @@ def calculate_accuracy(result, file_name):
     file_name = file_name[:-4]
     ground_truth = clean_ground_truths(file_name)
 
-    print('-'*80)
-    print("This is the result: ")
-    print(len(result))
     correct = 0
     for item in result: 
         for truth in ground_truth:

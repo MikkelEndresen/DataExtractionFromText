@@ -1,8 +1,15 @@
 import json
 from pipeline.utils import remove_duplicates, all_abbr
 
+# Methods to clean gpt extracted parameters and values
 
 def getX1Params():
+    """
+        Description:
+            Extracts parameters from x1.json
+        Output:
+            A list of all abbr and synonyms.
+    """
     x1 = open('pipeline/X1.json', 'r')
     content = json.load(x1)
     print(f"Number of parameters: {len(content)}")
@@ -32,7 +39,7 @@ def check_X1alignement(parameters):
     
     aligned = []
 
-    # TODO: Partial match. E.g. "R U-Creatinine"
+    # TODO: Partial Params.
 
     for dict in parameters:
         if dict['parameter'].lower() in x1params:
@@ -50,33 +57,6 @@ def check_X1alignement(parameters):
             aligned.append(new_dict)
     
     return aligned
-
-
-# def remove_duplicates(parameters):
-#     """
-#         Description:
-#            Removes duplicates, based on 'parameter' from a list of dicts. 
-#            Assuming latest recorded value is last in the list.
-#         Input:
-#             List of dictionaries: {'parameter':, 'value', 'unit': }
-#         Output:
-#             List of dictionaries: {'parameter':, 'value', 'unit': }
-#     """
-#     print(f"Number of paramaters before removing duplicates: {len(parameters)}")
-#     no_duplicates = []
-
-#     for item in parameters[::-1]:
-#         check = True
-#         for duplicate in no_duplicates:
-#             if duplicate['parameter'].lower() == item['parameter'].lower():
-#                 check = False
-#                 print(f"Duplicate removed: {duplicate}")
-#         if check:
-#             no_duplicates.append(item)
-
-#     print(f"Number of paramaters after removing duplicates: {len(no_duplicates)}")
-
-#     return no_duplicates
 
 
 def clean_ground_truths(file_name):

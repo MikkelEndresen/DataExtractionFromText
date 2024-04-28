@@ -79,6 +79,15 @@ def extract_lines_from_unstructured(file_path, all_keywords):
     return  found
 
 def find_numeric(line):
+    """
+    Description:
+        - Find the numeric value in a line
+        - Returns the last number found (should be most recent recording)
+    Input:
+        - One line with a parameter
+    Output:
+        - Float
+    """
     words = line.split(' ')
 
     numeric = []
@@ -95,6 +104,17 @@ def find_numeric(line):
     return 0
 
 def find_unit(line):
+    """
+    Description:
+        - Find the correct unit of measurement
+        - Used GPT3.5 to define common units of measurement
+          and do a text comparison on those
+    Input:
+        - One line with a parameter
+    Output:
+        - String
+    """
+
     units_of_measurement = [
     "g/L", "mg/dL", "ug/L", "mmol/L", "pmol/L", "nmol/L", "mmol/L",  # Mass Concentration Units
     "x10^9/L", "x10^12/L", "x10^6/L",  # Count Units
@@ -148,8 +168,8 @@ def remove_duplicates(parameters):
                 score.append(int_score)
             
             max_index = score.index(max(score)) # returns the index of the highest score
-                                                # or the first highest, which is the most
-                                                # recent value
+                                                # or if multiple the first highest, which
+                                                # is the most the most recent value recorded
             
             no_duplicates.append(paramaters_dict[param][max_index])
             
@@ -161,7 +181,7 @@ def remove_duplicates(parameters):
 def all_abbr(parameters):
     """
         Description:
-           Changes the paramater name to be the Abbr
+           Changes the paramater name to be the Abbr for all
         Input:
             List of dictionaries: {'parameter':, 'value', 'unit': }
         Output:

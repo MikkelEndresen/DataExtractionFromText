@@ -1,8 +1,16 @@
-from pipeline.utils import x1_data, x1_keywords,  extract_lines_from_unstructured
+from pipeline.utils import x1_data, x1_keywords,  extract_lines_from_unstructured, all_abbr
 from pipeline.LLM import ollama_phi3
 import json
 
 def LLM_query(lines):
+    """
+    Description:
+        - Defines the query for the LLM
+    Input:
+        - Lines. List of {'param': 'line_with_info'}
+    Output:
+        - Formatted query
+    """
     query = f"""
     Context: You are a medical expert specializing in extracting structured data from lab reports.
     Task: For each entry in the given text, fill in the "ENTER TEXT HERE" part of the template
@@ -37,7 +45,7 @@ def standardise_result(result):
     for item in result:
         
         if isinstance(item, list):
-            for secondary in item:
+            for secondary in item: # LLM had a tendency to return [[]]
                 new_item = {}
                 keys = list(secondary.keys())
 
@@ -75,7 +83,10 @@ def standardise_result(result):
 
 
 def LLM_JSON_query(result):
-
+    """
+    Description:
+        - Defining query to format text to json. 
+    """
     query = f"""
         Given this text: [result]. Please alter it such that it fits a json format of a dictionary like this:
         [{{"parameter": "Iron", "value": 27, "unit": "umol/L"}}], but with different values
@@ -85,7 +96,7 @@ def LLM_JSON_query(result):
 def experiment1_main(file_name):
     """
     Description:
-        - 
+        - Experiment using phi3 to extract data line by line
     Input:
         - file_name
     Output:
@@ -97,74 +108,30 @@ def experiment1_main(file_name):
     file_path = file_name # TODO: change naming
 
     # find all relevant lines
-    lines =  extract_lines_from_unstructured(file_path, keywords)
+    lines = extract_lines_from_unstructured(file_path, keywords)
 
-    # remove duplicates, and set keys to Abbr
-    final_lines = {}
-    for key in lines.keys():
-        for x in content:
-            lowercase_synonyms = [item.lower() for item in x['Synonyms']]
-            if key.lower() == x['Abbreviation'].lower() or key.lower() in lowercase_synonyms:
-                final_lines[x['Abbreviation']] = lines[key]
-
-    prompt = LLM_query(final_lines)
+    prompt = LLM_query(lines)
 
     text_result = ollama_phi3(prompt)
-    #print(text_result)
-
-    #print('-'*80)
-    #print(f"Plain text: {text_result}")
 
     text_result = text_result.split('\n')
-
-    json_result = []
-    for line in text_result:
-        #print(line)
+    print(text_result)
+    result = []
+    for line in text_result:  # Attempting to load json line by line
         if line == '[' or line == ']':
             continue
         try:
             json_line = json.loads(line)
-            #print(f"Json line: {json_line}")
         except json.decoder.JSONDecodeError:
-            # try: 
-            #     new_line = ollama_phi3(LLM_JSON_query(line))
-            #     json_line = json.loads(new_line)
-            # except json.decoder.JSONDecodeError:
-            #     continue
             continue
-        json_result.append(json_line)
+        result.append(json_line)
 
-    #print(f"Json Result: {json_result}")
-    json_result =  standardise_result(json_result)
-
-    # print(f"Result: {json_result}")
-    # print(f"Type: type{json_result}")
-
-    #json_result = json.loads(json_result)
-
-    # Remove anything that is not json compatible?
-
-    # TODO: convert line by line to improve retention
+    abbr_result = all_abbr(json_result)
     
-
-    # try: 
-    #     json_result = json.loads(text_result)
-    # except json.decoder.JSONDecodeError:
-    #     try:
-    #         json_result = ollama_phi3(LLM_JSON_query(text_result))
-    #         json_result = json.loads(text_result)
-    #     except json.decoder.JSONDecodeError:
-    #         print("Unable to load json")
-    #         json_result = []
-    
-    #json_result =  standardise_result(json_result)
-    
-    #print(f"Result: {json_result}")
-    #print(f"Type: type{json_result}")
-
+    json_result = standardise_result(abbr_result)
     
     return json_result
 
 if __name__ == "__main__":
-    experiment1_main('sample_data/0c848136-de54-49eb-a3c4-b04dda11ef42.txt')  
+    print(experiment1_main('sample_data/0c848136-de54-49eb-a3c4-b04dda11ef42.txt') )
     #test_formatting()

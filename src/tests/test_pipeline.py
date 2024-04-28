@@ -14,16 +14,6 @@ from pipeline.experiment1 import experiment1_main
 from pipeline.experiment2 import experiment2_main
 from ground_truths.gt_utils import clean_ground_truths
 
-'''
-What information should be stored results.csv?
-    - Date
-    - Stats
-        - Runtime
-        - Num parameters extracted
-        - Character percentage
-        - Accuracy (N.A.) for now 
-    - Resulting list
-'''
 
 def test_pipeline_stats():
     
@@ -35,7 +25,7 @@ def test_pipeline_stats():
             # calculate runtime
             start_time = time.time()
 
-            result = experiment2_main(path)
+            result = experiment1_main(path) # TODO: Change
 
             end_time = time.time()
             runtime = end_time - start_time
@@ -54,7 +44,7 @@ def test_pipeline_stats():
 
             # save into dictionary
             data = {
-                'Experiment': 'experiment2_5', ### TODO: Change
+                'Experiment': 'experiment1_2', ### TODO: Change to be dynamic
                 'DateTime': current_datetime,
                 'FileName': filename,
                 'Percentage': percentage,
@@ -64,9 +54,6 @@ def test_pipeline_stats():
                 'Result': result,
                 'Ground Truth': ground_truth
             }
-
-            print('-'*80)
-            print(f"This is the data: {data}")
 
             csv_file = 'results.csv'
             results_csv = open(csv_file, 'a', newline='')

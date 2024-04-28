@@ -20,23 +20,17 @@ def experiment2_main(file_name):
         entry = {}
 
         entry['parameter'] = line
-        entry['value'] = find_numeric(lines[line])
-        entry['unit'] = find_unit(lines[line])
+        entry['value'] = find_numeric(lines[line]) # find numeric on the line
+        entry['unit'] = find_unit(lines[line])     # find the unit descirptor
 
 
         result.append(entry)
 
     result = all_abbr(result) # paramater names to abbr.
-    print(f"Result before removing duplicates: {result}")
+    
     result = remove_duplicates(result)
 
-    # Remove dupliactes. 
-        # - Make sure to take the "best" version in case
-        # the param name was mentinoed in some weird sentence
-        # instead of with a value and unit. 
-    print("After")
-    print(result)
     return result
 
 if __name__ == "__main__":
-    experiment2_main('sample_data/0c848136-de54-49eb-a3c4-b04dda11ef42.txt')  
+    experiment2_main('sample_data/0c848136-de54-49eb-a3c4-b04dda11ef42.txt')  # test
