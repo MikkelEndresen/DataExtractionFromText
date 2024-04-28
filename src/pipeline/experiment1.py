@@ -2,6 +2,9 @@ from pipeline.utils import x1_data, x1_keywords,  extract_lines_from_unstructure
 from pipeline.LLM import ollama_phi3
 import json
 
+
+import lmformatenforcer
+
 def LLM_query(lines):
     """
     Description:
@@ -12,8 +15,7 @@ def LLM_query(lines):
         - Formatted query
     """
     query = f"""
-    Context: You are a medical expert specializing in extracting structured data from lab reports.
-    Task: For each entry in the given text, fill in the "ENTER TEXT HERE" part of the template
+        Find the parameter, value, and unit for each dictionary in the list under Input, and fill in the schema.
         - The value of "parameter" in the template should be equal to the key in the dictionary.
         - The value of "value" should be a numeric value extracted from the value in the dictionary.
         - The value of "unit" should be the unit of measurement for the parameter, also in the value in the dictionary.
@@ -22,13 +24,14 @@ def LLM_query(lines):
     Ensure all values are represented as strings with double quotations. 
 
     Examples:
-        Input [{{"Total Testosterone": "Total Testosterone (Siemens) 39.2 nmol/L (8.3-29)"}}, {{"Iron (10-30) umol/L 40 33 21 27"}}]
+        Input [{{"Total Testosterone": "Total Testosterone (Siemens) 39.2 nmol/L (8.3-29)"}}, {{"Iron": "Iron (10-30) umol/L 40 33 21 27"}}]
         Output: [{{"parameter": "Total Testosterone", "value": 39.2, "unit": "nmol/L"}}, {{"parameter": "Iron", "value": 27, "unit": "umol/L"}}]
 
-    Dictionary: {lines}
+    Input: {lines}
 
-    Template: [{{"parameter":"ENTER TEXT HERE" , "value":"ENTER TEXT HERE" , "unit":"ENTER TEXT HERE"}}]
+    Schema: [{{"parameter":text, "value":float , "unit":text}}, {{"parameter":text, "value":float , "unit":text}}...]
     """
+
     return query
 
 def standardise_result(result):
@@ -126,7 +129,7 @@ def experiment1_main(file_name):
             continue
         result.append(json_line)
 
-    abbr_result = all_abbr(json_result)
+    abbr_result = all_abbr(result)
     
     json_result = standardise_result(abbr_result)
     

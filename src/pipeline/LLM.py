@@ -12,7 +12,7 @@ def ollama_phi3(query):
     """
 
     llm = Ollama(model='phi3', temperature=0.0) # temp defaults to 0.8
-    result = llm.invoke (query)
-    
+    result = llm.invoke(query)
+
     return result
 

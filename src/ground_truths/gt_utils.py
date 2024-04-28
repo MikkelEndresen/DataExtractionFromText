@@ -82,4 +82,3 @@ def clean_ground_truths(file_name):
     no_duplicates = remove_duplicates(abbr)
 
     return no_duplicates
-
