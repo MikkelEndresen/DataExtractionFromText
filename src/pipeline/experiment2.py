@@ -1,6 +1,6 @@
 # Rule based approach
 from pipeline.utils import x1_data, x1_keywords,  extract_lines_from_unstructured, remove_duplicates
-from pipeline.utils import find_numeric, find_unit
+from pipeline.utils import find_numeric, find_unit, all_abbr
 
 
 def experiment2_main(file_name):
@@ -26,6 +26,7 @@ def experiment2_main(file_name):
 
         result.append(entry)
 
+    result = all_abbr(result) # paramater names to abbr.
     print(f"Result before removing duplicates: {result}")
     result = remove_duplicates(result)
 

@@ -54,7 +54,7 @@ def test_pipeline_stats():
 
             # save into dictionary
             data = {
-                'Experiment': 'experiment2_2', ### TODO: Change
+                'Experiment': 'experiment2_4', ### TODO: Change
                 'DateTime': current_datetime,
                 'FileName': filename,
                 'Percentage': percentage,

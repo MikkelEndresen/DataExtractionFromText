@@ -50,7 +50,6 @@ def extract_lines_from_unstructured(file_path, all_keywords):
 
     found = {}
     for i, line in enumerate(lines):
-        print(f"This is a line: {line}")
 
         # Ab. Antibodies
         # -, remove or not
@@ -59,7 +58,6 @@ def extract_lines_from_unstructured(file_path, all_keywords):
         # one word
         for word in words:
             if word.lower() in all_keywords:
-                print(f"word found: {word}")
                 found[word] = line
 
             # change words to fit X1.json
@@ -70,14 +68,12 @@ def extract_lines_from_unstructured(file_path, all_keywords):
         for i in range(len(words)-1):
             two_word = words[i] + " " + words[i+1]
             if two_word in all_keywords:
-                print(f"New word found: {two_word}")
                 found[two_word] = line
 
         # three word
         for i in range(len(words)-2):
             three_word = words[i] + " " + words[i+1] + " " + words[i+2]
             if three_word in all_keywords:
-                print(f"New word found: {three_word }")
                 found[three_word ] = line
 
     return  found
@@ -128,14 +124,6 @@ def remove_duplicates(parameters):
     """
 
 
-    # Find all the the duplicates and add them to a dictionary.
-        # then loop through the values of that dictionary and and either
-        # take the latest, all the one with legit values
-    
-    # add them all to a dict
-
-    # #TODO: make sure paramater = abbr
-
     paramaters_dict = {}
     for item in parameters[::-1]:
         param = item['parameter'].lower()
@@ -143,9 +131,6 @@ def remove_duplicates(parameters):
             paramaters_dict[param.lower()].append(item)
         else:  
             paramaters_dict[param.lower()] = [item]
-            
-
-    print(f"Paramater dict: {paramaters_dict}")
 
     no_duplicates = []
 
@@ -171,8 +156,38 @@ def remove_duplicates(parameters):
         else:
             no_duplicates.append(paramaters_dict[param][0])
 
-    print(f"Length of no duplicates: {len(no_duplicates)}")
-    print(f"Initial length: {len(parameters)}")
-
     return no_duplicates
 
+def all_abbr(parameters):
+    """
+        Description:
+           Changes the paramater name to be the Abbr
+        Input:
+            List of dictionaries: {'parameter':, 'value', 'unit': }
+        Output:
+            List of dictionaries: {'parameter':, 'value', 'unit': }
+    """
+    x1 = open('pipeline/X1.json', 'r')
+    content = json.load(x1)
+
+    result = []
+
+    for dict in parameters:
+        param_name = dict['parameter'].lower()
+
+        for item in content:
+            lowercase_synonyms = [x.lower() for x in item['Synonyms']]
+            if param_name == item['Abbreviation'].lower():
+                result.append(dict)
+                break
+            elif param_name in lowercase_synonyms:
+                new_dict = {
+                    'parameter': item['Abbreviation'],
+                    'value': dict['value'],
+                    'unit': dict['unit']
+                }
+                result.append(new_dict)
+                break
+
+
+    return result
