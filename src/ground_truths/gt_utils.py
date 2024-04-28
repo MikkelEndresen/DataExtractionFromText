@@ -1,4 +1,6 @@
 import json
+from pipeline.utils import remove_duplicates, all_abbr
+
 
 def getX1Params():
     x1 = open('pipeline/X1.json', 'r')
@@ -34,36 +36,47 @@ def check_X1alignement(parameters):
 
     for dict in parameters:
         if dict['parameter'].lower() in x1params:
-            aligned.append(dict)
+            new_dict = {}
+            new_dict['parameter'] = dict['parameter']
+
+            try:
+                value = float(dict['value'])
+            except ValueError:
+                value = 0
+            new_dict['value'] = value
+
+            new_dict['unit'] = dict['unit']
+
+            aligned.append(new_dict)
     
     return aligned
 
 
-def remove_duplicates(parameters):
-    """
-        Description:
-           Removes duplicates, based on 'parameter' from a list of dicts. 
-           Assuming latest recorded value is last in the list.
-        Input:
-            List of dictionaries: {'parameter':, 'value', 'unit': }
-        Output:
-            List of dictionaries: {'parameter':, 'value', 'unit': }
-    """
-    print(f"Number of paramaters before removing duplicates: {len(parameters)}")
-    no_duplicates = []
+# def remove_duplicates(parameters):
+#     """
+#         Description:
+#            Removes duplicates, based on 'parameter' from a list of dicts. 
+#            Assuming latest recorded value is last in the list.
+#         Input:
+#             List of dictionaries: {'parameter':, 'value', 'unit': }
+#         Output:
+#             List of dictionaries: {'parameter':, 'value', 'unit': }
+#     """
+#     print(f"Number of paramaters before removing duplicates: {len(parameters)}")
+#     no_duplicates = []
 
-    for item in parameters[::-1]:
-        check = True
-        for duplicate in no_duplicates:
-            if duplicate['parameter'].lower() == item['parameter'].lower():
-                check = False
-                print(f"Duplicate removed: {duplicate}")
-        if check:
-            no_duplicates.append(item)
+#     for item in parameters[::-1]:
+#         check = True
+#         for duplicate in no_duplicates:
+#             if duplicate['parameter'].lower() == item['parameter'].lower():
+#                 check = False
+#                 print(f"Duplicate removed: {duplicate}")
+#         if check:
+#             no_duplicates.append(item)
 
-    print(f"Number of paramaters after removing duplicates: {len(no_duplicates)}")
+#     print(f"Number of paramaters after removing duplicates: {len(no_duplicates)}")
 
-    return no_duplicates
+#     return no_duplicates
 
 
 def clean_ground_truths(file_name):
@@ -84,11 +97,9 @@ def clean_ground_truths(file_name):
 
     aligned = check_X1alignement(gpt_gt)
 
-    print(f"Aligned num params: {len(aligned)}")
+    abbr = all_abbr(aligned)
 
-    no_duplicates = remove_duplicates(aligned)
-
-    # TODO: Error/Standardise 'Value' missing/wrong format
+    no_duplicates = remove_duplicates(abbr)
 
     return no_duplicates
 
