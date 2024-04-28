@@ -11,6 +11,7 @@ import csv
 from pipeline import pipeline
 from pipeline.statistics import percentage_char_extracted, num_params_ext, calculate_accuracy
 from pipeline.experiment1 import experiment1_main
+from pipeline.experiment2 import experiment2_main
 from ground_truths.gt_utils import clean_ground_truths
 
 '''
@@ -34,7 +35,7 @@ def test_pipeline_stats():
             # calculate runtime
             start_time = time.time()
 
-            result = experiment1_main(path)
+            result = experiment2_main(path)
 
             end_time = time.time()
             runtime = end_time - start_time
@@ -53,7 +54,7 @@ def test_pipeline_stats():
 
             # save into dictionary
             data = {
-                'Experiment': 'experiment1_1', ### TODO: Change
+                'Experiment': 'experiment2_2', ### TODO: Change
                 'DateTime': current_datetime,
                 'FileName': filename,
                 'Percentage': percentage,

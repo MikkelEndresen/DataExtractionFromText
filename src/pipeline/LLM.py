@@ -52,7 +52,7 @@ def ollama_phi3(query):
         - Ollama pull phi3
     """
 
-    llm = Ollama(model='phi3')
+    llm = Ollama(model='phi3', temperature=0.0)
     result = llm.invoke (query)
     
     return result

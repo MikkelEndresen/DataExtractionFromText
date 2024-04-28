@@ -46,10 +46,37 @@ def extract_lines_from_unstructured(file_path, all_keywords):
 
     lines = data.split('\n')
 
+
     found = {}
     for i, line in enumerate(lines):
-        for word in line.split():
+        print(f"This is a line: {line}")
+
+        # Ab. Antibodies
+        # -, remove or not
+
+        words = line.split()
+        # one word
+        for word in words:
             if word.lower() in all_keywords:
+                print(f"word found: {word}")
                 found[word] = line
+
+            # change words to fit X1.json
+            if word == "Ab.":
+                word = "Antibodies"
+        
+        # two word
+        for i in range(len(words)-1):
+            two_word = words[i] + " " + words[i+1]
+            if two_word in all_keywords:
+                print(f"New word found: {two_word}")
+                found[two_word] = line
+
+        # three word
+        for i in range(len(words)-2):
+            three_word = words[i] + " " + words[i+1] + " " + words[i+2]
+            if three_word in all_keywords:
+                print(f"New word found: {three_word }")
+                found[three_word ] = line
 
     return  found
