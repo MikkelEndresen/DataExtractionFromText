@@ -1,41 +1,7 @@
 # Rule based approach
-from pipeline.utils import x1_data, x1_keywords,  extract_lines_from_unstructured
-from ground_truths.gt_utils import remove_duplicates
+from pipeline.utils import x1_data, x1_keywords,  extract_lines_from_unstructured, remove_duplicates
+from pipeline.utils import find_numeric, find_unit
 
-
-def find_numeric(line):
-    words = line.split(' ')
-
-    numeric = []
-        
-    for word in words:
-        try:
-            num = float(word)
-        except ValueError:
-            continue
-        numeric.append(num)
-
-    if len(numeric) > 0:
-        return numeric[-1]
-    return 0
-
-def find_unit(line):
-    units_of_measurement = [
-    "g/L", "mg/dL", "ug/L", "mmol/L", "pmol/L", "nmol/L", "mmol/L",  # Mass Concentration Units
-    "x10^9/L", "x10^12/L", "x10^6/L",  # Count Units
-    "%",  # Percentage
-    "U/L", "mm/h", "mL/min/1.73m²",  # Rate or Activity Units
-    "pH", "IU/L", "umol/L", "mIU/L"  # Other Units
-    ]
-
-    unit = ""
-
-    words = line.split(' ')
-    for word in words:
-        if word in units_of_measurement:
-            unit = word
-    
-    return unit
 
 def experiment2_main(file_name):
 

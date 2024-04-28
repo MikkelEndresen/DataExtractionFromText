@@ -5,12 +5,12 @@ import json
 def LLM_query(lines):
     query = f"""
     Context: You are a medical expert specializing in extracting structured data from lab reports.
-    Task: For each entry in the 
+    Task: For each entry in the given text, fill in the "ENTER TEXT HERE" part of the template
         - The value of "parameter" in the template should be equal to the key in the dictionary.
         - The value of "value" should be a numeric value extracted from the value in the dictionary.
         - The value of "unit" should be the unit of measurement for the parameter, also in the value in the dictionary.
 
-    Refer to the Example to see the input-output relationship. All output should be in JSON format of a list of dictionaries.
+    Refer to the Example to see the input-otput relationship. All output should be in JSON format of a list of dictionaries.
     Ensure all values are represented as strings with double quotations. 
 
     Examples:
@@ -19,7 +19,7 @@ def LLM_query(lines):
 
     Dictionary: {lines}
 
-    Template: [{{"parameter": , "value": , "unit": }}]
+    Template: [{{"parameter":"ENTER TEXT HERE" , "value":"ENTER TEXT HERE" , "unit":"ENTER TEXT HERE"}}]
     """
     return query
 
