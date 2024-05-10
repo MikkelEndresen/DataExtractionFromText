@@ -6,6 +6,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 import os
 
 import json
+import re
 
 from pipeline.utils import x1_data, x1_keywords,  extract_lines_from_unstructured
 
@@ -33,10 +34,12 @@ def standardise_result(result):
                 new_item["parameter"] = secondary[keys[0]] # TODO: Make sure this is abbreviation                
 
                 try:
-                    float_number = float(secondary[keys[1]])
+                    num = ''.join(filter(lambda x: x.isdigit() or x == '.',  item[keys[1]]))
+                    #num = re.sub(r'[^\d.]*([\d.]+)[^\d.]*', r'\1', item[keys[1]])
+                    float_number = float(num)
                     new_item["value"] = float_number
                 except (ValueError, TypeError):
-                    print("Could not convert string to float. Hence 0")
+                    #print("Could not convert string to float. Hence 0")
                     new_item["value"] = 0
                 
                 if secondary[keys[2]] is None:
@@ -52,11 +55,13 @@ def standardise_result(result):
 
             new_item["parameter"] = item[keys[0]]
 
-            try:
-                float_number = float(item[keys[1]])
+            try:   
+                num = ''.join(filter(lambda x: x.isdigit() or x == '.',  item[keys[1]]))
+                #num = re.sub(r'[^\d.]*([\d.]+)[^\d.]*', r'\1', item[keys[1]])
+                float_number = float(num)
                 new_item["value"] = float_number
             except (ValueError, TypeError):
-                print("Could not convert string to float. Hence 0")
+                #print("Could not convert string to float. Hence 0")
                 new_item["value"] = 0
             
             if item[keys[2]] is None:
@@ -116,16 +121,23 @@ def experiment4_main(file_path):
     chain = prompt | model | parser
 
     result = chain.invoke({"query": query})
-    print(result)
+    #print(result)
     if result is None:
-        return [{'paramater': 'N.A.', 'value': 0, 'unit': 'N.A.'}]
+        return [{'parameter': 'N.A.', 'value': 0, 'unit': 'N.A.'}]
 
-    standardised = standardise_result(result)
-    print(80*'-')
-    print(standardised)
-    print(80*'-')
+    #TODO: remove duplicates
+
+    try:
+        standardised = standardise_result(result) 
+    except AttributeError as e:
+        #print(result)
+        #print(e)
+        return [{'parameter': 'N.A.', 'value': 0, 'unit': 'N.A.'}]
+    #print(80*'-')
+    #print(standardised)
+    #print(80*'-')
     aligned = check_X1alignement(standardised) # standardise_result(result)
 
-    print(aligned)
-
-    return result
+    #print(aligned)
+    
+    return aligned

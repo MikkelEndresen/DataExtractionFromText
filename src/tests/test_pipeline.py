@@ -44,7 +44,7 @@ def test_pipeline_stats():
 
             # save into dictionary
             data = {
-                'Experiment': 'experiment4_3(x1al)', ### TODO: Change to be dynamic
+                'Experiment': 'experiment4_4(partial_nums)', ### TODO: Change to be dynamic
                 'DateTime': current_datetime,
                 'FileName': filename,
                 'Percentage': percentage,
@@ -56,16 +56,16 @@ def test_pipeline_stats():
             }
             print('-'*80)
             print(data)
-            # csv_file = 'results.csv'
-            # results_csv = open(csv_file, 'a', newline='')
-            # header_fields = list(data.keys())
-            # writer = csv.DictWriter(results_csv, fieldnames=header_fields)
+            csv_file = 'results.csv'
+            results_csv = open(csv_file, 'a', newline='')
+            header_fields = list(data.keys())
+            writer = csv.DictWriter(results_csv, fieldnames=header_fields)
 
-            # #Write header if file is empty
-            # if os.stat(csv_file).st_size == 0:
-            #     writer.writeheader()
+            #Write header if file is empty
+            if os.stat(csv_file).st_size == 0:
+                writer.writeheader()
             
-            # writer.writerow(data)
+            writer.writerow(data)
 
 if __name__ == "__main__":
     test_pipeline_stats()

@@ -45,7 +45,7 @@ def calculate_accuracy(result, file_name):
     Output:
         - Percentage value
     """
-
+    #print(f"FileName: {file_name}")
 
     file_name = file_name[:-4]
     ground_truth = clean_ground_truths(file_name)
@@ -53,17 +53,30 @@ def calculate_accuracy(result, file_name):
     correct = 0
     for item in result: 
         for truth in ground_truth:
+            
+
             if truth['parameter'].lower() == item['parameter'].lower():
                 correct += 1
-                if truth['value'] == item['value']:
-                    correct += 1
+
+                #print(f"Truth: {truth}")
+               # print(f"Guess: {item}")
+
+                try:
+                    if float(truth['value']) == float(item['value']):
+                        correct += 1
+                        #print(f"This is the truth value: {truth['value']}, this is the found: {item['value']}")
+                except (ValueError, TypeError) as e:
+                    print(e)
+                    print(item['value'])
                 try:
                     if truth['unit'].lower() == item['unit'].lower():
+                       # print(f"This is the truth unit: {truth['unit']}, this is the found: {item['unit']}")
                         correct += 1
                 except AttributeError as e:
                     print(e)
                     print(item['unit'])
     if correct != 0:
+       # print(f"Score: {correct / (len(ground_truth)*3)}")
         return correct / (len(ground_truth) * 3)
     return 0
 
