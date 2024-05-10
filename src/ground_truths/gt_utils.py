@@ -12,8 +12,6 @@ def getX1Params():
     """
     x1 = open('pipeline/X1.json', 'r')
     content = json.load(x1)
-    print(f"Number of parameters: {len(content)}")
-    print()
 
     all_keywords = []
     for parameter in content:
@@ -22,7 +20,6 @@ def getX1Params():
             all_keywords.append(synonym.lower())
 
     
-    print(f"Number of keywords: {len(all_keywords)}")
     return all_keywords
 
 def check_X1alignement(parameters):
@@ -48,7 +45,7 @@ def check_X1alignement(parameters):
 
             try:
                 value = float(dict['value'])
-            except ValueError:
+            except (ValueError, TypeError):
                 value = 0
             new_dict['value'] = value
 
@@ -72,8 +69,6 @@ def clean_ground_truths(file_name):
     path_to_file = 'ground_truths/gpt_gt/gpt_gt_' + file_name + '.json'
     file = open(path_to_file, 'r')
     gpt_gt = json.load(file)
-
-    print(f"Initial num params: {len(gpt_gt)}")
 
     aligned = check_X1alignement(gpt_gt)
 

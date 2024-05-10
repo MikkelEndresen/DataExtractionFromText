@@ -55,6 +55,9 @@ def jsonformer_test():
 
     print(json.loads(generated_data))
 
+
+#### Try Langchain: JsonOutPutPArser
+
 if __name__ == "__main__":
     jsonformer_test()
     # print(experiment1_main('sample_data/0c848136-de54-49eb-a3c4-b04dda11ef42.txt') )

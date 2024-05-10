@@ -57,8 +57,12 @@ def calculate_accuracy(result, file_name):
                 correct += 1
                 if truth['value'] == item['value']:
                     correct += 1
-                if truth['unit'].lower() == item['unit'].lower():
-                    correct += 1
+                try:
+                    if truth['unit'].lower() == item['unit'].lower():
+                        correct += 1
+                except AttributeError as e:
+                    print(e)
+                    print(item['unit'])
     if correct != 0:
         return correct / (len(ground_truth) * 3)
     return 0

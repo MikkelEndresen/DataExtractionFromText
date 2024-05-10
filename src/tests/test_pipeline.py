@@ -8,10 +8,10 @@ import csv
 #sys.path.append('../pipeline')
 #from pipeline import pipeline
 #sys.path.append('../pipeline/statistics')
-from pipeline import pipeline
 from pipeline.statistics import percentage_char_extracted, num_params_ext, calculate_accuracy
 from pipeline.experiment1 import experiment1_main
 from pipeline.experiment2 import experiment2_main
+from pipeline.experiment4 import experiment4_main
 from ground_truths.gt_utils import clean_ground_truths
 
 
@@ -25,7 +25,7 @@ def test_pipeline_stats():
             # calculate runtime
             start_time = time.time()
 
-            result = experiment1_main(path) # TODO: Change
+            result = experiment4_main(path) # TODO: Change
 
             end_time = time.time()
             runtime = end_time - start_time
@@ -44,7 +44,7 @@ def test_pipeline_stats():
 
             # save into dictionary
             data = {
-                'Experiment': 'experiment1_2', ### TODO: Change to be dynamic
+                'Experiment': 'experiment4_3(x1al)', ### TODO: Change to be dynamic
                 'DateTime': current_datetime,
                 'FileName': filename,
                 'Percentage': percentage,
@@ -54,17 +54,18 @@ def test_pipeline_stats():
                 'Result': result,
                 'Ground Truth': ground_truth
             }
+            print('-'*80)
+            print(data)
+            # csv_file = 'results.csv'
+            # results_csv = open(csv_file, 'a', newline='')
+            # header_fields = list(data.keys())
+            # writer = csv.DictWriter(results_csv, fieldnames=header_fields)
 
-            csv_file = 'results.csv'
-            results_csv = open(csv_file, 'a', newline='')
-            header_fields = list(data.keys())
-            writer = csv.DictWriter(results_csv, fieldnames=header_fields)
-
-            #Write header if file is empty
-            if os.stat(csv_file).st_size == 0:
-                writer.writeheader()
+            # #Write header if file is empty
+            # if os.stat(csv_file).st_size == 0:
+            #     writer.writeheader()
             
-            writer.writerow(data)
+            # writer.writerow(data)
 
 if __name__ == "__main__":
     test_pipeline_stats()
