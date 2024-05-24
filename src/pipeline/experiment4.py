@@ -76,7 +76,7 @@ def standardise_result(result):
 
 def experiment4_main(file_path):
 
-    GOOGLE_API_KEY = 'AIzaSyDWNP5-fhmYfjzMdN-_a3gV7-j4bnm8xpg'
+    GOOGLE_API_KEY = #
 
     if 'GOOGLE_API_KEY' in os.environ:
         print(f"The environment variable GOOGLE_API_KEY exists with value: {os.environ['GOOGLE_API_KEY']}")
