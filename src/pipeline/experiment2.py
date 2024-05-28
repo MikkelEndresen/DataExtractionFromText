@@ -27,7 +27,7 @@ def experiment2_main(file_name):
         result.append(entry)
 
     result = all_abbr(result) # paramater names to abbr.
-    
+
     result = remove_duplicates(result)
 
     return result
